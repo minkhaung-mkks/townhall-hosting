@@ -5,7 +5,7 @@
 # Expects this folder structure:
 #   project-root/
 #     townhall-backend/   (its own git repo)
-#     frontend/           (its own git repo)
+#     townhall-frontend/  (its own git repo)
 #     dockerfiles/
 #     rebuild.sh
 
@@ -24,7 +24,7 @@ git pull
 
 echo ""
 echo "=== Pulling latest frontend ==="
-cd "$PROJECT_DIR/frontend"
+cd "$PROJECT_DIR/townhall-frontend"
 git pull
 
 echo ""
@@ -34,7 +34,7 @@ docker build -t backend:1.0 .
 
 echo ""
 echo "=== Building frontend image ==="
-cd "$PROJECT_DIR/frontend"
+cd "$PROJECT_DIR/townhall-frontend"
 docker build -t frontend:1.0 .
 
 echo ""
