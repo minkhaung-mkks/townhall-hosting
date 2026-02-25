@@ -1,0 +1,36 @@
+services:
+  my-next-backend:
+    image: backend:1.0
+    container_name: my-next-backend
+    environment:
+      - MONGODB_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/<dbname>?retryWrites=true&w=majority
+      - JWT_SECRET=your-jwt-secret-here
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+
+  my-react-frontend:
+    image: frontend:1.0
+    container_name: my-react-frontend
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+
+  nginx:
+    image: jonasal/nginx-certbot:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./user_conf.d:/etc/nginx/user_conf.d
+      - nginx_secrets:/etc/letsencrypt
+    env_file:
+      - ./nginx-certbot.env
+    restart: unless-stopped
+    depends_on:
+      - my-next-backend
+      - my-react-frontend
+
+volumes:
+  nginx_secrets:
